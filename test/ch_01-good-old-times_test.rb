@@ -1,12 +1,11 @@
 require 'test/unit'
-# require 'ch_01'
 
 class Ch1Test < Test::Unit::TestCase
 
   WORK_DIR = "/Users/ravil/experimental/exips"
 
   def test_calculates_count
-    system("ruby #{WORK_DIR}/lib/ch_01.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
+    system("ruby #{WORK_DIR}/lib/ch_01-good-old-times.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
 
     text = File.read("#{WORK_DIR}/word_freqs")
     assert_true  text.include? 'apple,0001'
@@ -15,7 +14,7 @@ class Ch1Test < Test::Unit::TestCase
   end
 
   def test_ignores_stop_words
-    system("ruby #{WORK_DIR}/lib/ch_01.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
+    system("ruby #{WORK_DIR}/lib/ch_01-good-old-times.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
 
     text = File.read("#{WORK_DIR}/word_freqs")
     assert_false  text.include? ' an'
@@ -25,7 +24,7 @@ class Ch1Test < Test::Unit::TestCase
   end
 
   def test_prints_top
-    system("ruby #{WORK_DIR}/lib/ch_01.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
+    system("ruby #{WORK_DIR}/lib/ch_01-good-old-times.rb #{WORK_DIR}/text.txt > #{WORK_DIR}/answer")
 
     text = File.read("#{WORK_DIR}/answer")
     assert_true  text.include? 'banana-3'
