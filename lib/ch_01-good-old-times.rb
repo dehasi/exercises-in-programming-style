@@ -3,16 +3,24 @@
 # Ruby doesn't have 'isalnum' like Python. Let's write out own
 class String
   def alnum?
-    !!match(/^[[:alnum:]]+$/)
+    begin
+      !!match(/^[[:alnum:]]+$/)
+    rescue
+      puts inspect
+    end
   end
 end
 
 # Utility for handling the intermediate 'second memory'
-def touchopen(filename, *args)
+def remove(filename)
   begin
     File.delete(filename)
   rescue Errno::ENOENT
   end
+end
+
+def touchopen(filename, *args)
+  remove(filename)
   File.open(filename, 'a').close # touch file
   return File.open(filename, *args)
 end
@@ -52,7 +60,8 @@ while true
   data[3] = 0
 
   # Loop over characters in the line
-  data[1][0].each_char.each do |c| # elimination of sumbol c is exersise
+  data[1][0].each_char.each do |c|
+    # elimination of sumbol c is exersise
     if data[2] == nil
       if c.alnum? # we found the start of the word
         data[2] = data[3]
@@ -119,7 +128,7 @@ while true
   data[26] = data[25].split(',')[1].to_i # we split word,NNN and get NNN
   data[25] = data[25].split(',')[0].strip # word
   # check if this word has more counts than the ones in memory
-  (0..25).each do |i|
+  (0...25).each do |i|
     if data[i] == [] or data[i][1] < data[26]
       data.insert(i, [data[25], data[26]])
       data[26] = [] # del data[26]
@@ -127,10 +136,10 @@ while true
     end
   end
 end
-
+word_freqs.close
+remove("word_freqs")
 data[0...25].each do |tf|
   if tf.length == 2
     puts "#{tf[0]}-#{tf[1]}"
   end
 end
-word_freqs.close
