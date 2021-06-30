@@ -41,8 +41,8 @@ class PrideAndPrejudiceTest < Test::Unit::TestCase
     end
   end
 
-  def test_single_style
-    run_single_script("/Users/ravil/experimental/exips/lib/ch_02-go-forth.rb")
+  def ignore_test_single_style
+    run_single_script("#{WORK_DIR}/lib/ch_04-monolithic.rb")
   end
 
   def teardown
