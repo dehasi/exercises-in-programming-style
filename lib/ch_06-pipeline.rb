@@ -1,12 +1,5 @@
 #!/usr/bin/env ruby
 
-# Ruby doesn't have 'isalnum' like Python. Let's write out own
-class String
-  def alnum?
-    !!match(/^[[:alnum:]]+$/)
-  end
-end
-
 # Takes a path to file and returns the entire content
 # as a string
 def read_file(path_to_file)
