@@ -42,7 +42,7 @@ class PrideAndPrejudiceTest < Test::Unit::TestCase
   end
 
   def ignore_test_single_style
-    run_single_script("#{WORK_DIR}/lib/ch_04-monolithic.rb")
+    run_single_script("#{WORK_DIR}/lib/ch_05-cookbook.rb")
   end
 
   def teardown
