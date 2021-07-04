@@ -42,7 +42,7 @@ class PrideAndPrejudiceTest < Test::Unit::TestCase
   end
 
   def ignore_test_single_style
-    run_single_script("#{WORK_DIR}/lib/ch_09-kick-forward.rb")
+    run_single_script("#{WORK_DIR}/lib/ch_10-the-one.rb")
   end
 
   def teardown
