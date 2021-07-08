@@ -74,3 +74,23 @@ class StopWordsFilter
     @stop_words.include? word
   end
 end
+
+class WordFrequencyCounter
+
+  def initialize(wfapp, data_storage)
+    @word_freqs = Hash.new(0)
+    data_storage.register_for_word_event(w -> { increment_count(w) })
+    wfapp.register_for_end_event(-> { print_freqs })
+  end
+
+  def increment_count(word)
+    @word_freqs[word] += 1
+  end
+
+  def print_freqs
+    @word_freqs
+      .sort_by { |p| p[1] }
+      .reverse.first(25)
+      .each { |tf| puts "#{tf[0]}-#{tf[1]}" }
+  end
+end
