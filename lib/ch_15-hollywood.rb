@@ -48,7 +48,7 @@ class DataStorage
   end
 
   def load(path_to_file)
-    @data = File.read(path_to_file).gsub(/[\W_]+/, ' ').downcase.split
+    @data = File.read(path_to_file).gsub(/[\W_]+/, ' ').downcase
   end
 
   def produce_words
