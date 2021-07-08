@@ -16,4 +16,17 @@ class WordFrequencyFramework
     @end_event_handlers.append(handler)
   end
 
+  def run(path_to_file)
+    for h in @load_event_handlers
+      h.call(path_to_file)
+    end
+
+    for h in @dowork_event_handlers
+      h.call()
+    end
+
+    for h in @end_event_handlers
+      h.call()
+    end
+  end
 end
