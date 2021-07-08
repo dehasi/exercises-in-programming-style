@@ -23,17 +23,11 @@ class WordFrequencyFramework
   end
 
   def run(path_to_file)
-    for h in @load_event_handlers
-      h.call(path_to_file)
-    end
+    @load_event_handlers.each { |h| h.call(path_to_file) }
 
-    for h in @dowork_event_handlers
-      h.call
-    end
+    @dowork_event_handlers.each { |h| h.call }
 
-    for h in @end_event_handlers
-      h.call
-    end
+    @end_event_handlers.each { |h| h.call }
   end
 end
 
