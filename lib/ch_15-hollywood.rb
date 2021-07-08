@@ -28,11 +28,11 @@ class WordFrequencyFramework
     end
 
     for h in @dowork_event_handlers
-      h.call()
+      h.call
     end
 
     for h in @end_event_handlers
-      h.call()
+      h.call
     end
   end
 end
@@ -43,15 +43,15 @@ class DataStorage
   def initialize(wfapp, stop_words_filter)
     @stop_words_filter = stop_words_filter
     @word_even_handlers = []
-    wfapp.register_for_load_event(-> { load })
+    wfapp.register_for_load_event(->(x) { load(x) })
     wfapp.register_for_dowork_event(-> { produce_words })
   end
 
-  def load()
+  def load(path_to_file)
     @data = File.read(path_to_file).gsub(/[\W_]+/, ' ').downcase.split
   end
 
-  def produce_words()
+  def produce_words
     for w in @data.split
       if not @stop_words_filter.stop_word? w
         for h in @word_even_handlers
@@ -69,7 +69,7 @@ end
 class StopWordsFilter
 
   def initialize(wfapp)
-    wfapp.register_for_load_event(-> { load })
+    wfapp.register_for_load_event(-> (ignore) { load })
   end
 
   def load
@@ -86,7 +86,7 @@ class WordFrequencyCounter
 
   def initialize(wfapp, data_storage)
     @word_freqs = Hash.new(0)
-    data_storage.register_for_word_event( method(:increment_count))
+    data_storage.register_for_word_event(->(w) { increment_count(w) })
     wfapp.register_for_end_event(-> { print_freqs })
   end
 
