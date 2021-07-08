@@ -58,3 +58,19 @@ class DataStorage
     @word_even_handlers.append(handler)
   end
 end
+
+class StopWordsFilter
+
+  def initialize(wfapp)
+    wfapp.register_for_load_event(-> { load })
+  end
+
+  def load
+    @stop_words = File.open('/Users/ravil/experimental/exips/stop_words.txt').read.split(',')
+    @stop_words += 'abcdefghijklmnopqrstuvwxyz'.chars
+  end
+
+  def stop_word?(word)
+    @stop_words.include? word
+  end
+end
