@@ -94,3 +94,10 @@ class WordFrequencyCounter
       .each { |tf| puts "#{tf[0]}-#{tf[1]}" }
   end
 end
+
+# The main function
+wfapp = WordFrequencyFramework.new
+stop_word_filter = StopWordsFilter.new(wfapp)
+data_storage = DataStorage.new(wfapp, stop_word_filter)
+word_freq_counter = WordFrequencyCounter(wfapp, data_storage)
+wfapp.run(ARGV[0])
