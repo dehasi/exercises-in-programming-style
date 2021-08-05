@@ -1,2 +1,4 @@
 .idea
+*.gem
+*.lock
 *.out

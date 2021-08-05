@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 # The "I'll call you back" Word Frequency Framework
-
 class WordFrequencyFramework
 
   def initialize
@@ -25,9 +24,9 @@ class WordFrequencyFramework
   def run(path_to_file)
     @load_event_handlers.each { |h| h.call(path_to_file) }
 
-    @dowork_event_handlers.each { |h| h.call }
+    @dowork_event_handlers.each(&:call)
 
-    @end_event_handlers.each { |h| h.call }
+    @end_event_handlers.each(&:call)
   end
 end
 
@@ -46,11 +45,9 @@ class DataStorage
   end
 
   def produce_words
-    for w in @data.split
-      if not @stop_words_filter.stop_word? w
-        for h in @word_even_handlers
-          h.call(w)
-        end
+    @data.split.each do |w|
+      unless @stop_words_filter.stop_word? w
+        @word_even_handlers.each { |h| h.call(w) }
       end
     end
   end

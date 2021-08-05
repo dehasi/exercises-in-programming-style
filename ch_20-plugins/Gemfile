@@ -1,0 +1,6 @@
+source 'file://~/.gem'
+
+gem 'words1'
+gem 'words2'
+gem 'frequencies1'
+gem 'frequencies2'

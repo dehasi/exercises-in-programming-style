@@ -9,3 +9,7 @@ Rake::TestTask.new do |task|
 end
 
 task 'default' => 'test'
+
+task 'hello' do
+  p 'hello world!'
+end

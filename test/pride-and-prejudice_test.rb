@@ -35,14 +35,14 @@ class PrideAndPrejudiceTest < Test::Unit::TestCase
     assert_equal(expected_output, actual_output)
   end
 
-  def ignore_test_all
+  def test_all
     Dir["#{WORK_DIR}/lib/ch_*.rb"].each do |s|
       run_single_script(s)
     end
   end
 
   def test_single_style
-    run_single_script("#{WORK_DIR}/lib/ch_15-hollywood.rb")
+    run_single_script("#{WORK_DIR}/lib/ch_28-lazy-rivers.rb")
   end
 
   def teardown
