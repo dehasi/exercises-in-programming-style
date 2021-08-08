@@ -42,7 +42,7 @@ class PrideAndPrejudiceTest < Test::Unit::TestCase
   end
 
   def test_single_style
-    run_single_script("#{WORK_DIR}/lib/ch_30-dataspaces.rb")
+    run_single_script("#{WORK_DIR}/lib/ch_31-map-reduce.rb")
   end
 
   def teardown
