@@ -15,5 +15,5 @@ task 'hello' do
 end
 
 task 'ch35' do
-  sh 'bundle install --local --quiet'
+  sh 'bundle install --local'
 end
