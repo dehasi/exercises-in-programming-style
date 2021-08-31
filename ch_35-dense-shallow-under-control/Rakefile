@@ -15,5 +15,6 @@ task 'hello' do
 end
 
 task 'ch35' do
+  sh '# gem uninstall tensorflow'
   sh 'bundle install --local'
 end

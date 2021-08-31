@@ -1,3 +1,3 @@
 source 'file://~/.gem'
 
-gem 'tensorflow'
+gem 'tensorflow', '0.2.0.pre.ravil'
