@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'matrix'
+require 'tensorflow'
 
 ASCII_LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'.chars # Python's list(string.ascii_lowercase)
 ASCII_UPPERCASE = ASCII_LOWERCASE.map(&:upcase)
@@ -56,9 +56,15 @@ def normalization_layer_set_weights(n_layer)
   end
   wb.append(w)
   wb.append(b)
-  #n_layer.set_weights(wb)
-  # return n_layer
-  wb
+  n_layer.set_weights(wb)
+  return n_layer
+  # wb
 end
 
+# dense_layer = Dense(INPUT_VOCAB_SIZE,
+#                     input_shape=(INPUT_VOCAB_SIZE,),
+#                     activation='softmax')
+dense_layer  = Tf::Keras::Layers::Dense.new(INPUT_VOCAB_SIZE, activation: "softmax") # input_shape=(INPUT_VOCAB_SIZE,)
 
+puts dense_layer.inspect
+l = normalization_layer_set_weights dense_layer
