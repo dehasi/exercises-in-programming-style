@@ -4,7 +4,7 @@
 require 'matrix'
 
 ASCII_LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'.chars # Python's list(string.ascii_lowercase)
-ASCII_UPPERCASE = ASCII_LOWERCASE.upcase
+ASCII_UPPERCASE = ASCII_LOWERCASE.map(&:upcase)
 
 CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"
 CHAR_INDICES = CHARACTERS.chars.each_with_index.map { |ch, i| [ch, i] }.to_h
@@ -13,7 +13,7 @@ INDICES_CHAR = CHARACTERS.chars.each_with_index.map { |ch, i| [i, ch] }.to_h
 INPUT_VOCAB_SIZE = CHARACTERS.size
 
 def encode_one_hot(line)
-  x = Array.new(line.size, 0) { Array.new(INPUT_VOCAB_SIZE, 0) }
+  x = Array.new(line.size) { Array.new(INPUT_VOCAB_SIZE, 0) }
   line.chars.each_with_index do |c, i|
     index = if CHARACTERS.include? c
               CHAR_INDICES[c]
@@ -33,7 +33,7 @@ end
 
 def normalization_layer_set_weights(n_layer)
   wb = []
-  w = Array.new(INPUT_VOCAB_SIZE, 0.0) { Array.new(INPUT_VOCAB_SIZE, 0.0) }
+  w = Array.new(INPUT_VOCAB_SIZE) { Array.new(INPUT_VOCAB_SIZE, 0.0) }
   b = Array.new(INPUT_VOCAB_SIZE, 0.0)
   # Let lower case letters go through
   # Let lower case letters go through
@@ -41,8 +41,19 @@ def normalization_layer_set_weights(n_layer)
     i = CHAR_INDICES[c]
     w[i][i] = 1
   end
+
+  # Map capitals to lower case
+  ASCII_UPPERCASE.each do |c|
+    i = CHAR_INDICES[c]
+    il = CHAR_INDICES[c.downcase]
+    w[i][il] = 1
+  end
+  # Map all non-letters to space
+  sp_idx = CHAR_INDICES[' ']
 end
 
 r = encode_one_hot("123")
 
-puts decode_one_hot(encode_one_hot("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"))
+# puts decode_one_hot(encode_one_hot("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"))
+puts r.inspect
+puts normalization_layer_set_weights(r).inspect
