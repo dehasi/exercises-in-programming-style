@@ -50,9 +50,7 @@ def normalization_layer_set_weights(n_layer)
   end
   # Map all non-letters to space
   sp_idx = CHAR_INDICES[' ']
-  CHARACTERS.chars
-            .filter { |c| !ASCII_LETTERS.include?(c) }
-            .each do |c|
+  CHARACTERS.chars.filter { |c| !ASCII_LETTERS.include?(c) }.each do |c|
     i = CHAR_INDICES[c]
     w[i][sp_idx] = 1
   end
