@@ -12,23 +12,20 @@ INPUT_VOCAB_SIZE = CHARACTERS.size
 def encode_one_hot(line)
   x = Array.new(line.size, 0) { Array.new(INPUT_VOCAB_SIZE, 0) }
   line.chars.each_with_index do |c, i|
-    if CHARACTERS.include? c
-      index = CHAR_INDICES[c]
-    else
-      index = CHAR_INDICES[' ']
-    end
+    index = if CHARACTERS.include? c
+              CHAR_INDICES[c]
+            else
+              CHAR_INDICES[' ']
+            end
     x[i][index] = 1
   end
   x
 end
 
 def decode_one_hot(x)
-  s = []
-  for onehot in x
-    one_index = onehot.rindex(onehot.max)
-    s.append(INDICES_CHAR[one_index])
-  end
-  s.join ''
+  x.map { |onehot| onehot.rindex(onehot.max) }
+   .map { |one_index| INDICES_CHAR[one_index] }
+   .join ''
 end
 
 r = encode_one_hot("123")
