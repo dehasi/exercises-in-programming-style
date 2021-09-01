@@ -5,7 +5,7 @@ require 'matrix'
 
 ASCII_LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'.chars # Python's list(string.ascii_lowercase)
 ASCII_UPPERCASE = ASCII_LOWERCASE.map(&:upcase)
-
+ASCII_LETTERS = ASCII_LOWERCASE + ASCII_UPPERCASE
 CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"
 CHAR_INDICES = CHARACTERS.chars.each_with_index.map { |ch, i| [ch, i] }.to_h
 INDICES_CHAR = CHARACTERS.chars.each_with_index.map { |ch, i| [i, ch] }.to_h
@@ -50,10 +50,17 @@ def normalization_layer_set_weights(n_layer)
   end
   # Map all non-letters to space
   sp_idx = CHAR_INDICES[' ']
+  CHARACTERS.chars
+            .filter { |c| !ASCII_LETTERS.include?(c) }
+            .each do |c|
+    i = CHAR_INDICES[c]
+    w[i][sp_idx] = 1
+  end
+  wb.append(w)
+  wb.append(b)
+  #n_layer.set_weights(wb)
+  # return n_layer
+  wb
 end
 
-r = encode_one_hot("123")
 
-# puts decode_one_hot(encode_one_hot("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"))
-puts r.inspect
-puts normalization_layer_set_weights(r).inspect
