@@ -10,17 +10,27 @@ INDICES_CHAR = CHARACTERS.chars.each_with_index.map { |ch, i| [i, ch] }.to_h
 INPUT_VOCAB_SIZE = CHARACTERS.size
 
 def encode_one_hot(line)
-  x = Matrix.build(line.size, INPUT_VOCAB_SIZE) { 0 }
+  x = Array.new(line.size, 0) { Array.new(INPUT_VOCAB_SIZE, 0) }
   line.chars.each_with_index do |c, i|
     if CHARACTERS.include? c
       index = CHAR_INDICES[c]
     else
       index = CHAR_INDICES[' ']
     end
-    x[i, index] = 1
+    x[i][index] = 1
   end
   x
 end
 
+def decode_one_hot(x)
+  s = []
+  for onehot in x
+    one_index = onehot.rindex(onehot.max)
+    s.append(INDICES_CHAR[one_index])
+  end
+  s.join ''
+end
+
 r = encode_one_hot("123")
-puts r.inspect
+
+puts decode_one_hot(encode_one_hot("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ \t\n\r\x0b\x0c"))
