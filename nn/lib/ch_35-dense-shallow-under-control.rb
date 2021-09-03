@@ -84,7 +84,6 @@ module CH35
 
       for i in 0...ww.size
         for j in 0...ww[0].size
-          #warn "ww[#{i}][#{j}] =  #{ww[i][j]}"
           ww[i][j] += bias[j]
         end
       end
