@@ -125,23 +125,16 @@ model.add(normalization_layer_set_weights(nil))
 normalization_layer_set_weights model.layers[0]
 # puts model.layers.inspect
 
-File.readlines(ARGV[0]).each do |line|
-  next if line.strip.empty?
+# File.readlines(ARGV[0]).each do |line|
+#   next if line.strip.empty?
+#
+#   batch = encode_one_hot(line)
+#   preds = model.predict(batch)
+#   normal = decode_one_hot(preds)
+#   #  puts normal
+# end
 
-  batch = encode_one_hot(line)
-  preds = model.predict(batch)
-  normal = decode_one_hot(preds)
-  #  puts normal
-end
-a = [
-  [1, 2, 3],
-  [4, 5, 6]
-]
-
-b = [
-  [7, 8],
-  [9, 10],
-  [11, 12]
-]
-c = model.dot a, b
-puts c.inspect
+batch = encode_one_hot("onetwothree4")
+preds = model.predict(batch)
+normal = decode_one_hot(preds)
+puts normal
