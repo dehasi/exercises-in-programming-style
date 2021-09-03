@@ -56,7 +56,7 @@ def normalization_layer_set_weights(n_layer)
   end
   wb.append(w)
   wb.append(b)
-  # n_layer.set_weights(wb)
+  n_layer << (wb) # n_layer.set_weights(wb) | weight, bias
   # return n_layer
   wb
 end
@@ -72,10 +72,26 @@ module CH35
     def add(layer)
       @layers << layer
     end
+
+    def predict(input)
+      # activation(dot(input, kernel) + bias)
+      w = layers[0][0]
+      b = layers[0][1]
+
+      input
+    end
+
+    def multiply(m1, m2)
+      result = Array.new(m1.size) { Array.new(m2[0].size, 0) }
+
+      result result
+    end
   end
 end
 
-def build_model() end
+def build_model
+  CH35::Sequential.new
+end
 
 # dense_layer = Dense(INPUT_VOCxAB_SIZE,
 #                     input_shape=(INPUT_VOCAB_SIZE,),
@@ -93,3 +109,17 @@ def build_model() end
 
 # puts dense_layer.inspect
 # l = normalization_layer_set_weights dense_layer
+#
+model = build_model
+model.add([])
+normalization_layer_set_weights model.layers[0]
+puts model.layers.inspect
+
+File.readlines(ARGV[0]).each do |line|
+  next if line.strip.empty?
+
+  batch = encode_one_hot(line)
+  preds = model.predict(batch)
+  normal = decode_one_hot(preds)
+  #  puts normal
+end
