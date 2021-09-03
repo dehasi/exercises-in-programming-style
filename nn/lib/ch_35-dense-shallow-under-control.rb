@@ -61,10 +61,32 @@ def normalization_layer_set_weights(n_layer)
   # wb
 end
 
-# dense_layer = Dense(INPUT_VOCAB_SIZE,
+module CH35
+  class Sequential
+    attr_reader :layers
+
+    def initialize
+      @layers = []
+    end
+
+    def add(layer)
+      @layers << layer
+    end
+  end
+end
+
+def build_model() end
+
+# dense_layer = Dense(INPUT_VOCxAB_SIZE,
 #                     input_shape=(INPUT_VOCAB_SIZE,),
 #                     activation='softmax')
-dense_layer  = Tf::Keras::Layers::Dense.new(INPUT_VOCAB_SIZE, activation: "softmax") # input_shape=(INPUT_VOCAB_SIZE,)
+dense_layer = Tf::Keras::Layers::Dense.new(INPUT_VOCAB_SIZE, activation: "softmax", use_bias: false ) # input_shape=(INPUT_VOCAB_SIZE,)
 
-puts dense_layer.inspect
-l = normalization_layer_set_weights dense_layer
+tensor = dense_layer.call Tf::Variable.new(encode_one_hot("line"))
+puts tensor.value.inspect.size
+puts tensor.value.class
+puts tensor.shape
+puts tensor.value[3].size
+
+# puts dense_layer.inspect
+# l = normalization_layer_set_weights dense_layer
