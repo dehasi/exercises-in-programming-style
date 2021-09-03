@@ -76,11 +76,20 @@ module CH35
     def predict(input)
       # activation(dot(input, kernel) + bias)
       w = layers[0][0]
-      b = layers[0][1]
+      bias = layers[0][1]
+      warn "bias = #{bias.inspect}"
 
       warn "input #{input}"
       ww = dot(input, w)
-      warn ww.size
+
+      for i in 0...ww.size
+        for j in 0...ww[0].size
+          #warn "ww[#{i}][#{j}] =  #{ww[i][j]}"
+          ww[i][j] += bias[j]
+        end
+      end
+      warn "ww.size #{ww.size} ww[0].size #{ww[0].size} bias.size = #{bias.size}"
+      warn ww.inspect
       input
     end
 
@@ -89,12 +98,12 @@ module CH35
       for i in 0...result.size
         for j in 0...result.size
           for k in 0...m1[0].size
-            warn "#{m1[i][k]} * #{m2[k][j]}"
+            # warn "#{m1[i][k]} * #{m2[k][j]}"
             result[i][j] += m1[i][k] * m2[k][j]
           end
         end
       end
-      return result
+      result
     end
   end
 end
@@ -134,7 +143,7 @@ normalization_layer_set_weights model.layers[0]
 #   #  puts normal
 # end
 
-batch = encode_one_hot("onetwothree4")
+batch = encode_one_hot("oe")
 preds = model.predict(batch)
 normal = decode_one_hot(preds)
 puts normal
