@@ -83,8 +83,14 @@ module CH35
 
     def multiply(m1, m2)
       result = Array.new(m1.size) { Array.new(m2[0].size, 0) }
-
-      result result
+      for i in 0..result.size - 1
+        for j in 0..result.size - 1
+          for k in 0..m1[0].size - 1
+            result[i][j] += m1[i][k] * m2[k][j]
+          end
+        end
+      end
+      return result
     end
   end
 end
@@ -123,3 +129,15 @@ File.readlines(ARGV[0]).each do |line|
   normal = decode_one_hot(preds)
   #  puts normal
 end
+# a = [
+#   [1, 2, 3],
+#   [4, 5, 6]
+# ]
+#
+# b = [
+#   [7, 8],
+#   [9, 10],
+#   [11, 12]
+# ]
+# c = model.multiply a,b
+# puts c.inspect
