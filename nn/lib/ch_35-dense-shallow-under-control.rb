@@ -75,32 +75,33 @@ module CH35
 
     def predict(input)
       # activation(dot(input, kernel) + bias)
-      w = layers[0][0]
+      weights = layers[0][0]
       bias = layers[0][1]
-      warn "bias = #{bias.inspect}"
 
-      warn "input #{input}"
-      ww = dot(input, w)
-
-      for i in 0...ww.size
-        for j in 0...ww[0].size
-          ww[i][j] += bias[j]
-        end
+      ww = dot(input, weights)
+      (0...ww.size).each do |i|
+        ww[i] = sum(ww[i], bias)
       end
-      warn "ww.size #{ww.size} ww[0].size #{ww[0].size} bias.size = #{bias.size}"
-      warn ww.inspect
-      input
+      ww
     end
 
     def dot(m1, m2)
       result = Array.new(m1.size) { Array.new(m2[0].size, 0) }
-      for i in 0...result.size
-        for j in 0...result.size
-          for k in 0...m1[0].size
-            # warn "#{m1[i][k]} * #{m2[k][j]}"
+      (0...result.size).each do |i|
+        (0...result.size).each do |j|
+          (0...m1[0].size).each do |k|
             result[i][j] += m1[i][k] * m2[k][j]
           end
         end
+      end
+      result
+    end
+
+    def sum(arr1, arr2)
+      result = Array.new(arr1.size, 0)
+      (0...arr1.size).each do |i|
+        warn arr1[i]
+        result[i] = arr1[i] + arr2[i]
       end
       result
     end
