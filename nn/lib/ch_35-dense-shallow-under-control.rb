@@ -56,7 +56,7 @@ def normalization_layer_set_weights(n_layer)
   end
   wb.append(w)
   wb.append(b)
-  n_layer << (wb) # n_layer.set_weights(wb) | weight, bias
+  # n_layer << (wb) # n_layer.set_weights(wb) | weight, bias
   # return n_layer
   wb
 end
@@ -78,14 +78,18 @@ module CH35
       w = layers[0][0]
       b = layers[0][1]
 
+      warn "input #{input}"
+      ww = dot(input, w)
+      warn ww.size
       input
     end
 
-    def multiply(m1, m2)
+    def dot(m1, m2)
       result = Array.new(m1.size) { Array.new(m2[0].size, 0) }
-      for i in 0..result.size - 1
-        for j in 0..result.size - 1
-          for k in 0..m1[0].size - 1
+      for i in 0...result.size
+        for j in 0...result.size
+          for k in 0...m1[0].size
+            warn "#{m1[i][k]} * #{m2[k][j]}"
             result[i][j] += m1[i][k] * m2[k][j]
           end
         end
@@ -117,9 +121,9 @@ end
 # l = normalization_layer_set_weights dense_layer
 #
 model = build_model
-model.add([])
+model.add(normalization_layer_set_weights(nil))
 normalization_layer_set_weights model.layers[0]
-puts model.layers.inspect
+# puts model.layers.inspect
 
 File.readlines(ARGV[0]).each do |line|
   next if line.strip.empty?
@@ -129,15 +133,15 @@ File.readlines(ARGV[0]).each do |line|
   normal = decode_one_hot(preds)
   #  puts normal
 end
-# a = [
-#   [1, 2, 3],
-#   [4, 5, 6]
-# ]
-#
-# b = [
-#   [7, 8],
-#   [9, 10],
-#   [11, 12]
-# ]
-# c = model.multiply a,b
-# puts c.inspect
+a = [
+  [1, 2, 3],
+  [4, 5, 6]
+]
+
+b = [
+  [7, 8],
+  [9, 10],
+  [11, 12]
+]
+c = model.dot a, b
+puts c.inspect
