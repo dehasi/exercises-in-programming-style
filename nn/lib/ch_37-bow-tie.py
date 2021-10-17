@@ -19,7 +19,7 @@ def encode_one_hot(line):
     return x
 
 
-def decode_one_hot(x):
+def decode_values(x):
     s = []
     for onehot in x:
         one_index = (np.abs(onehot - 1.0)).argmin()
@@ -87,5 +87,5 @@ with open(sys.argv[1]) as f:
         if line.isspace(): continue
         batch = encode_one_hot(line)
         preds = model.predict(batch)
-        normal = decode_one_hot(preds)
+        normal = decode_values(preds)
         print(normal)
